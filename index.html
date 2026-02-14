@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>For You ❤️</title>
+  <style>
+    :root { --card: rgba(255,255,255,.85); }
+    body{
+      margin:0; min-height:100vh; display:grid; place-items:center;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: radial-gradient(circle at top, #ffe0ec, #ffd1dc, #f7b7c8);
+      overflow:hidden;
+    }
+    .wrap{
+      width:min(720px, 92vw);
+      padding:22px;
+    }
+    .card{
+      background: var(--card);
+      backdrop-filter: blur(10px);
+      border-radius: 22px;
+      padding: 26px;
+      box-shadow: 0 18px 55px rgba(0,0,0,.18);
+      text-align:center;
+      position:relative;
+    }
+    h1{ margin: 0 0 10px; font-size: clamp(26px, 4vw, 40px); }
+    p{ margin: 8px 0 0; font-size: 16px; opacity: .9; }
+
+    .btnRow{
+      margin-top: 18px;
+      display:flex; justify-content:center; gap:12px; flex-wrap:wrap;
+      position:relative;
+      height: 70px;
+    }
+    button{
+      border:0;
+      padding: 12px 18px;
+      border-radius: 14px;
+      font-size: 16px;
+      cursor:pointer;
+      transition: transform .12s ease, box-shadow .12s ease, opacity .12s ease;
+      box-shadow: 0 10px 22px rgba(0,0,0,.15);
+      user-select:none;
+    }
+    button:active{ transform: scale(.98); }
+    #yesBtn{ background:#ff2d75; color:white; }
+    #yesBtn:hover{ transform: translateY(-1px); }
+
+    #noBtn{
+      background:#ffffff;
+      color:#333;
+      position:absolute;
+      left: 50%;
+      transform: translateX(70px);
+    }
+
+    .reveal{
+      margin-top: 18px;
+      display:none;
+      animation: pop .35s ease;
+    }
+    @keyframes pop{
+      from{ transform: translateY(6px); opacity:0; }
+      to{ transform: translateY(0); opacity:1; }
+    }
+    .photo{
+      width: min(420px, 86vw);
+      height: 260px;
+      border-radius: 18px;
+      margin: 14px auto 0;
+      background:
+        linear-gradient(135deg, rgba(255,45,117,.18), rgba(255,255,255,.35)),
+        url("https://images.unsplash.com/photo-1520975958225-242aabe3b0b6?auto=format&fit=crop&w=1200&q=80");
+      background-size: cover;
+      background-position: center;
+      box-shadow: 0 14px 35px rgba(0,0,0,.18);
+    }
+
+    .tiny{
+      margin-top: 12px;
+      font-size: 13px;
+      opacity: .7;
+    }
+
+    /* floating hearts */
+    .heart{
+      position:absolute;
+      font-size: 18px;
+      animation: floatUp linear forwards;
+      opacity:.85;
+      pointer-events:none;
+      filter: drop-shadow(0 8px 10px rgba(0,0,0,.12));
+    }
+    @keyframes floatUp{
+      from{ transform: translateY(30px) scale(.9); opacity:0; }
+      10%{ opacity:.9; }
+      to{ transform: translateY(-110vh) scale(1.25); opacity:0; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="card" id="card">
+      <h1>Will you be my Valentine? ❤️</h1>
+      <p id="sub">I have one important question for the most important person in my life.</p>
+
+      <div class="btnRow" id="btnRow">
+        <button id="yesBtn">Yes</button>
+        <button id="noBtn" aria-label="No">No</button>
+      </div>
+
+      <div class="reveal" id="reveal">
+        <h2 style="margin:8px 0 6px;">Yesss! 😍</h2>
+        <p id="msg">
+          Happy Valentine’s Day, my love. I’m so grateful you’re my fiancée — I love you more than words.
+        </p>
+        <div class="photo" id="photo"></div>
+        <div class="tiny">Tip: You can replace the picture with your own (instructions below).</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const noBtn = document.getElementById('noBtn');
+    const yesBtn = document.getElementById('yesBtn');
+    const reveal = document.getElementById('reveal');
+    const sub = document.getElementById('sub');
+    const btnRow = document.getElementById('btnRow');
+    const card = document.getElementById('card');
+
+    // Place "No" initially in a sensible spot
+    function placeNo(x, y) {
+      const rowRect = btnRow.getBoundingClientRect();
+      const btnRect = noBtn.getBoundingClientRect();
+
+      // clamp inside the button row
+      const minX = 10;
+      const maxX = rowRect.width - btnRect.width - 10;
+      const minY = 6;
+      const maxY = rowRect.height - btnRect.height - 6;
+
+      const nx = Math.max(minX, Math.min(maxX, x));
+      const ny = Math.max(minY, Math.min(maxY, y));
+
+      noBtn.style.left = nx + "px";
+      noBtn.style.top = ny + "px";
+      noBtn.style.transform = "translateX(0)"; // override initial
+    }
+
+    // Run away when user gets close
+    function dodge() {
+      const rowRect = btnRow.getBoundingClientRect();
+      const btnRect = noBtn.getBoundingClientRect();
+
+      // random new position
+      const x = Math.random() * (rowRect.width - btnRect.width);
+      const y = Math.random() * (rowRect.height - btnRect.height);
+      placeNo(x, y);
+      spawnHearts(3);
+    }
+
+    // Make it hard to click: dodge on hover + on touchstart (mobile)
+    noBtn.addEventListener('mouseenter', dodge);
+    noBtn.addEventListener('mouseover', dodge);
+    noBtn.addEventListener('touchstart', (e) => { e.preventDefault(); dodge(); }, {passive:false});
+    noBtn.addEventListener('click', (e) => { e.preventDefault(); dodge(); });
+
+    // Yes reveals message
+    yesBtn.addEventListener('click', () => {
+      sub.textContent = "Best answer ever ❤️";
+      reveal.style.display = "block";
+      noBtn.style.opacity = .15;
+      noBtn.style.pointerEvents = "none";
+      spawnHearts(18);
+    });
+
+    // floating hearts effect
+    const hearts = ["❤️","💗","💖","💘","💕"];
+    function spawnHearts(n){
+      for(let i=0;i<n;i++){
+        const el = document.createElement('div');
+        el.className = "heart";
+        el.textContent = hearts[Math.floor(Math.random()*hearts.length)];
+        el.style.left = Math.random() * 100 + "vw";
+        el.style.bottom = "-10px";
+        const dur = 3 + Math.random() * 2.8;
+        el.style.animationDuration = dur + "s";
+        el.style.fontSize = (16 + Math.random()*18) + "px";
+        document.body.appendChild(el);
+        setTimeout(()=> el.remove(), dur*1000);
+      }
+    }
+
+    // Initial position of No (after layout)
+    window.addEventListener('load', () => placeNo( (btnRow.clientWidth/2) + 70, 12 ));
+    window.addEventListener('resize', () => placeNo( (btnRow.clientWidth/2) + 70, 12 ));
+  </script>
+</body>
+</html>
