@@ -6,11 +6,16 @@
   <title>For You ❤️</title>
   <style>
     :root { --card: rgba(255,255,255,.85); }
-    body{
-      margin:0; min-height:100vh; display:grid; place-items:center;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      background: radial-gradient(circle at top, #ffe0ec, #ffd1dc, #f7b7c8);
-      overflow:hidden;
+body{
+  margin:0;
+  min-height:100vh;
+  display:grid;
+  place-items:center;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  background: radial-gradient(circle at top, #ffe0ec, #ffd1dc, #f7b7c8);
+  overflow-y:auto;   /* ✅ allow scroll */
+  overflow-x:hidden; /* ✅ no sideways scroll */
+}
     }
     .wrap{
       width:min(720px, 92vw);
