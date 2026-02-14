@@ -15,7 +15,6 @@ body{
   background: radial-gradient(circle at top, #ffe0ec, #ffd1dc, #f7b7c8);
   overflow-y:auto;   /* ✅ allow scroll */
   overflow-x:hidden; /* ✅ no sideways scroll */
-}
     }
     .wrap{
       width:min(720px, 92vw);
@@ -71,11 +70,14 @@ body{
       to{ transform: translateY(0); opacity:1; }
     }
 .photo{
+.photo{
   width: min(420px, 86vw);
+  max-width: 100%;
   height: auto;
   border-radius: 18px;
   margin: 14px auto 0;
   display:block;
+  object-fit: contain;
   box-shadow: 0 14px 35px rgba(0,0,0,.18);
 }
     .tiny{
@@ -113,14 +115,14 @@ body{
       </div>
 
       <div class="reveal" id="reveal">
-        <h2 style="margin:8px 0 6px;">Yesss! 😍</h2>
-        <p id="msg">
-<p id="msg">
-  Happy Valentine’s Day, my love. I’m so grateful to have you — I love you more than words, Fakho Gak!!!
-</p>
+  <h2 style="margin:8px 0 6px;">Yesss! 😍</h2>
 
-<img src="./98ffd249-d8e9-4dd5-bc61-da56a05ded88.jpg" class="photo" id="photo" alt="Fakho Jan">
-      </div>
+  <p id="msg">
+    Happy Valentine’s Day, my love. I’m so grateful to have you — I love you more than words, Fakho Gak!!!
+  </p>
+
+  <img src="./98ffd249-d8e9-4dd5-bc61-da56a05ded88.jpg" class="photo" id="photo" alt="Fakho Jan">
+</div>
     </div>
   </div>
 
