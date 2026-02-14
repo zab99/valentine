@@ -65,19 +65,14 @@
       from{ transform: translateY(6px); opacity:0; }
       to{ transform: translateY(0); opacity:1; }
     }
-    .photo{
-      width: min(420px, 86vw);
-      height: 260px;
-      border-radius: 18px;
-      margin: 14px auto 0;
-      background:
-        linear-gradient(135deg, rgba(255,45,117,.18), rgba(255,255,255,.35)),
-        url("https://images.unsplash.com/photo-1520975958225-242aabe3b0b6?auto=format&fit=crop&w=1200&q=80");
-      background-size: cover;
-      background-position: center;
-      box-shadow: 0 14px 35px rgba(0,0,0,.18);
-    }
-
+.photo{
+  width: min(420px, 86vw);
+  height: auto;
+  border-radius: 18px;
+  margin: 14px auto 0;
+  display:block;
+  box-shadow: 0 14px 35px rgba(0,0,0,.18);
+}
     .tiny{
       margin-top: 12px;
       font-size: 13px;
